@@ -1,0 +1,181 @@
+				1.DB First Approach
+			------------------------------------
+
+
+Link:\\ad.infosys.com\storage\GEC\TRAINEE\ARTIFACT\Foundation Program\Course_Artifacts_FP16_17\MS\Regular\EFCore-SuppliedFiles\DBFirst approach scripts
+
+->Setup Enviornment
+
+--new project-> create class library DAL(.NET Core)
+--new project->console app(.NET CORE)
+Add nuget packages to DAL
+--. . .SqlServer
+--. . .Tools
+--Microsoft.Extensions.Configuration.Json
+
+Check 
+--Tools->Nuget Package Manager->Package Manager Console
+
+
+
+->Connect to DB
+
+server=(localdb)\MSSQLLocalDB
+trusted_connection=true
+database=QuickCartDB
+	
+	or
+
+connection_string="data source=(localdb)\MSSQLLocalDB;
+integrated security=true;
+initial catalog=QuickCartDB"
+
+
+->
+Entity - C# class representing a database table
+Data model - Relationship between the classes
+
+
+
+-------------
+-------------
+
+
+Scaffolding is done to create an EDM by executing the 
+		>scaffold-dbcontext command in the Package Manager Console.
+
+
+->Scaffolding:
+
+The Scaffold-DbContext command is executed in the Package Manager Console or the CLI. 
+
+Syntax:
+Scaffold-DbContext [-Connection] <String> [-Provider] <String> [-OutputDir <String>] 
+
+
+ex :Scaffold-DbContext  "data source=(localdb)\MSSQLLocalDB;integrated security=true;initial catalog=QuickKartDB" "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir Models
+generates EDM and Context class
+
+->Parameters
+-Connection <String> used to establish a connection with the database
+(connection_string)
+-Provider <String> database provider name that has all the run-time libraries required to interact with a specific database
+(Microsoft.EntityFrameworkCore.SqlServer)
+-[-OutputDir <String>] :to organize files
+
+
+
+**get-help Scaffold-DbContext
+*not case sensitive
+
+
+
+--QuickCartDBContext.cs:context file is imp in output dir along with other entities
+			(inherits from DBContext)
+
+--The primary class that is responsible for interacting with data present in the database as entity objects 
+is the class DbContext. It is always used as a derived class. 
+
+--The DbContext class is an integral part of Entity Framework Core. 
+It represents a session (connection) with the database which can be used 
+to query and update the changes (made to the entity objects) in the application 
+to the database (every entity object maps to a row in the table).
+
+--DbSet<TEntity> is a collection of objects of type TEntity.
+
+ Example: DbSet<Categories> is a collection of objects of the entity class Categories. 
+LINQ queries can be applied on this set to fetch/update the data from/to the database. 
+TEntity is the type of entity that the DbSet operates on. 
+
+
+-->QuickKartDBContext has
+	-parameterised constructor
+	-parameterless constructor
+
+	-other properties(called as DbSet properties) :public virtual DbSet<CardDetails> CardDetails{get;set;}
+			--they actually return table data as objects
+
+	-onconfiguring method:(Suggestion given inside default written method for security move connection string to config file)
+	-onmodelconfig method:for codefirstapproach
+
+	-Json config file is to put in DAL 
+	(JavaScript Object Notation)
+
+	[{CategoryId:1,CategoryName:"Sports"}
+	 {}
+	 {}
+	]
+
+--appsettings.json properties ->:copytooutputdirectory-> yes copy always
+--will be in bin->debug
+
+
+->Models
+-Tables are converted to classes 
+-Columns to properties(Scalar properties)
+-[Collection Navigational properties]:Foreign Key reference in another table ->to property (public virtual Icollection<Products> Products{get;set;})
+-[Navigational properties]:Foreign key reference written in itself->(public virtual Categories Category{get;set;})
+ 
+
+
+**Partial class is a concept where a single class can be split into 2 or more files. 
+This feature is useful when a class consists of a large number of members (functions, properties and so on). 
+In such cases functions can be developed in one file and properties in another.
+
+
+
+-------------
+-------------
+
+
+--> Add below code before if condition in OnConfiguring(DbContextOptionsBuilder optionsBuilder) method
+(means if not already done in the constructor )
+
+
+var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+var config = builder.Build();
+var connectionString = config.GetConnectionString("QuickKartDBConnectionString");
+
+------------
+
+--Add a (public) class to connect to DB server and 
+write data access methods (QuickKartRepository)
+
+--------------
+--------------
+
+
+-->Add the following namespace in QuickKartRepository.cs to remove the compilation error shown at line number - 6.
+Namespace : using Microsoft.EntityFrameworkCore;
+
+
+--In the LINQ query:
+Like() is a CLR method that works similar to the SQL Server database operator LIKE
+
+
+--Functions is a property that returns DbFunction. It provides CLR methods (Example: Like()) that gets translated to database function or operators
+Syntax of the Like():
+	bool DbFunctions.Like(string MatchExpression,string pattern)
+
+--The matchExpresion is the property p.ProductName value
+--pattern is the parameter value = "BMW%"
+
+
+-----------------------
+-----------------------
+
+product = context.Products.Where(p => p.CategoryId == categoryId).LastOrDefault();
+								 .FirstOrDefault();
+								 .First();--throw exception if no rows are returned
+								 .Single();--returns only element of sequence else throws exception
+								 .SingleOrDefault();--returns only element of sequence or default if empty, else if more than one, throws exception
+
+
+
+
+
+
+

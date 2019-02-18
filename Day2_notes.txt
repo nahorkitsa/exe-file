@@ -1,0 +1,189 @@
+**Build-CTRL+SHIFT+B
+
+---Insert operations
+
+3 ways to add/insert data:
+
+	1.context.Categories.Add(category)
+	2.context.Add(category) : two step-identify type of object passed and then insert
+	3.context.Add<Categories>(category)
+
+	--context.SaveChanges() : returns int 
+	  -SaveChanges() saves all changes made in the DbSet of the context class 
+	   to the database.Changes can be new entity objects added to the DbSet<TEntity> 
+	   belonging to a context class. 
+
+	   EF Core builds the INSERT statement(s) on these new entity objects and 
+	   executes the statements in the database. 
+	  -It returns the number of objects entries made in the database table.
+
+**create a status variable to check if query works fine or not else in exception make it false
+
+	->2 ways:
+        --public virtual void AddRange([NotNullAttribute] IEnumerable<TEntity> entities);
+		pass : (listproducts)    
+
+        --public virtual void AddRange([NotNullAttribute] params TEntity[] entities);
+		pass : (product1,product2)
+
+
+
+
+---Update operations:
+
+	--> context.Categories.Find(categoryId); 
+	(if searching based on primary key)
+	(Find() : Finds an entity with the given primary key values, else null is returned.(also used if composite key))
+
+
+	-->Categories category = context.Categories
+                             .Where(x => x.CategoryId == categoryId)
+                             .FirstOrDefault();	
+
+		:can be updated using category object:category.categoryName=""
+	
+	-->context.Categories.Update(category)
+
+	(can be used for search on primarykey as well as non primary key )
+
+
+	--With using...block
+	  using (var newContext = new QuickKartDBContext())
+          {
+               newContext.Products.Update(product);
+          }
+
+	  -Placing code in a using block ensures that the objects are disposed 
+	   (though not necessarily collected)as soon as control leaves the block.
+
+
+	->UpdateRange(productslist)
+	  -Fetch all the rows objects to be updated into a list 
+	  -Make changes to the objects in the list.
+	  -pass the updated list to the UpdateRange(updatedlist) method.
+	  -Save the changes
+
+		->2 ways:
+        	--public virtual void UpdateRange([NotNullAttribute] IEnumerable<TEntity> entities);
+
+        	--public virtual void UpdateRange([NotNullAttribute] params TEntity[] entities);	
+
+
+
+---Delete Operations:
+	-Delete single row object:
+		product = context.Products.Find(productId);
+		context.Products.Remove(product)
+
+	-Delete multiple row objects:
+                var deleteProducts = context.Products.Where(p => p.ProductName.Contains(subString));
+                context.Products.RemoveRange(deleteProducts);
+	
+		->2 ways:
+		--public virtual void RemoveRange([NotNullAttribute] IEnumerable<TEntity> entities);
+			pass : (listproducts)
+
+		--public virtual void RemoveRange([NotNullAttribute] params TEntity[] entities);
+			pass : (product1,product2)
+		
+
+http://docs.anaconda.com/anaconda/user-guide/getting-started/
+
+
+C:\Users\rohan12.TRN\AppData\Local\Continuum\anaconda3
+
+-------------------
+-------------------
+Portion:
+*Enviornment setup
+*Db first approach->Till Delete operations(crud operations)
+		  ->Nothing in track changes
+
+*code first approach->stored procedure execution
+		    ->calling/executing table valued functions
+		    ->Execute scalar functions
+			
+-------------------
+-------------------
+
+-raw sql queries : same as in sql server
+
+
+-------------------
+-------------------
+
+---Code first Stored procedure execution :
+
+	-stored procedure returns number of rows affected based on insert,delete,update statements in the procedure
+	
+	1.DbSet.FromSql() : select statements
+	
+
+
+	2.DbContext.Database.ExecuteSqlCommand():query statements(crud)
+
+
+		-To create declared variables in sql server in EFCore use:
+		 namespace:using System.Data.SqlClient;(actually used to create DAL in ADO.NET)
+		
+		-Create object of scalar variable(object is called as SqlParameter)
+		
+	->2 ways:
+
+		1.setting all values
+			ex: SqlParameter prmsEmailId = new SqlParameter() { ParameterName = "@EmailId",SqlDbType=System.Data.SqlDbType.VarChar,Size=50,Value=emailId};
+
+		2.Use parameterised constructor 
+			ex: SqlParameter prmProductId = new SqlParameter("@ProductId",productId); 
+			(other things are understood by ado.net framework)
+			
+		-->For out and return values ,we have to set the datatype and Direction
+			ex1(for output variable) : SqlParameter prmPurchaseId = new SqlParameter("@PurchaseId",System.Data.SqlDbType.BigInt) { Direction=System.Data.ParameterDirection.Output};
+        	        ex2(for return variable) : SqlParameter prmReturnResult = new SqlParameter("@ReturnResult", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.ReturnValue };
+
+		-->rowsAffected=context.Database.ExecuteSqlCommand(rawsql,new[] {prmReturnResult,prmEmailId,prmProductId,prmQuantityPurchased,prmPurchaseId});
+			(parameteers should be in order as of exec command)
+		
+		-->set the out and return variables
+		returnValue = Convert.ToInt32(prmReturnResult.Value);
+                purchaseId = Convert.ToInt32(prmPurchaseId);
+		
+		-->set appropriate values in catch 
+		-->can return rowsAffected or return value
+
+-------------------------
+-------------------------
+
+
+-- if a table valued function is returning a different structure create a public entity(class) in Models Folder
+	(every entity must have primary key)
+
+	--For that write [Key]above primary key column with 
+		namespace:using System.ComponentModel.DataAnnotations;
+
+	--Write a property in the DbContext class for the created class
+ 
+
+
+--Scalar function
+
+
+	1.        [DbFunction("ufn_GenerateNewProductId","dbo")] write this above the GenerateNewProductId in QuickKartDBContext
+
+	2.Inside OnModelBuilding method modelBuilder.HasDbFunction(() => QuickKartDBContext.ufn_GenerateNewProductId());
+		and use ufn_GenerateNewProductId() in QuickKartRepository class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
