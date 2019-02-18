@@ -1,0 +1,39 @@
+-json
+-kesterel web server
+
+dotnet aspnet-codegenerator view RegisterUser create -m QuickKartCoreMVCApp.Models.Users -udl -outDir Views\User
+
+
+System.Web.Mvc.ContentResult
+		.EmptyResult
+		.FileResult
+		.HttpStatusCodeResult
+		.JavaScriptResult
+		.JsonResult
+		.RedirectResult
+		.RedirectToRouteResult
+		.ViewResult
+
+dotnet aspnet-codegenerator view ViewCategories list -m QuickKartCoreMVCApp.Models.Category -l _LayoutAdmin -outDir Views\Category
+
+        [Required(ErrorMessage = "CategoryId is mandatory")]
+        public byte? CategoryId { get; set; }?
+        [Required(ErrorMessage = "Product Price is mandatory")]
+        public decimal Price { get; set; }?
+        [Required(ErrorMessage = "ProductId is mandatory")]
+        public string ProductId { get; set; }??
+        [StringLength(int.MaxValue, MinimumLength = 3, ErrorMessage = "Invalid Product name")]
+        [Required(ErrorMessage = "Productname is mandatory")]
+        public string ProductName { get; set; }
+        [StringLength(int.MaxValue, MinimumLength = 1, ErrorMessage = "Invalid quantity")]
+        [Required(ErrorMessage = "Quantity is mandatory")]
+        public int QuantityAvailable { get; set; }
+
+
+
+dotnet aspnet-codegenerator view AddCategory create -m QuickKartCoreMVCApp.Models.Category -l _LayoutAdmin -outDir Views\Category --referenceScriptLibraries
+
+
+dotnet aspnet-codegenerator view UpdateCategory edit -m QuickKartCoreMVCApp.Models.Category -l _LayoutAdmin -outDir Views\Category --referenceScriptLibraries
+
+dotnet aspnet-codegenerator view DeleteCategory delete -m QuickKartCoreMVCApp.Models.Category -l _LayoutAdmin -outDir Views\Category --referenceScriptLibraries

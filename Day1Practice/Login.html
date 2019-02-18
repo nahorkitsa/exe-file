@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    
+    <script>
+        function validate() {
+            uname = document.forms[0].username.value;
+            passwd = document.forms[0].password.value;
+            document.cookie["username"] = uname;
+
+            if (uname == "admin" && passwd == "admin") {
+                document.cookie["loggedin"] = "true";
+                confirm("Hello " + uname + "! You will now be redirected to Homepage");
+                window.location = "./Home.html";
+                return false;
+
+            }
+        }
+         
+    </script>
+                           
+    
+
+    <form name="Registration" onsubmit="return validate()" method="get">
+        <style>
+            p1 {
+                padding-left: 6em;
+                padding-right: 0em;
+            }
+        </style>
+
+        <!--Input Crerdintials-->
+        <h4>
+            <label>Please Login</label>
+        </h4>
+        <br />
+        <div>
+            <label for="username">Username </label>
+            <input type="text" id="username" name="username" pattern="[A-za-z]*" maxlength="7" size="20" autofocus required />
+            <br />
+            <br />
+            <label for="name">Password </label>
+            <input type="password" id="password" name="password" required />
+            <br />
+            <br />
+            <label for="drop_list">Country </label>
+            <select id="drop_list"  size="1" >
+                <option>India</option>
+                <option>US</option>
+                <option>UK</option>
+            </select>
+            <br />
+            <br />
+            <label for="text_area">Comments </label>
+            <textarea id="text_area" name="comments" rows="3" cols="25" placeholder="Enter your comments..."></textarea>
+            <br />
+            <br />
+            <p1>
+                <button type="submit" id="login" name="Login" value="submit">Login</button>
+                <a href="./Home.html" target="_blank">
+                    Move to HomePage<a/>
+                    <p1>
+        </div>
+    </form>
+</body>
+</html>

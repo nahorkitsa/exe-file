@@ -1,0 +1,49 @@
+Inline element : Can start anywhere in the line. It may contain only data and other inline elements
+Example : <span>
+ 
+
+Block level element : Begins on a new line. It may contain inline element and block level elements
+Example : <div>
+
+2 ways:
+
+--<form name="Registration" action="Home.html" method="get" novalidate>
+--<button type="submit" id="login" name="Login" formnovalidate>Login</button>
+
+remove novalidate to validate required and other validations
+
+---------------------------------------------------------------
+1.Creating UI for Web using HTML 5
+2.Styling Web pages using CSS3
+3.
+
+
+
+--exam portion :upto anchor tag
+--upto extended styling
+
+
+----------------------------------------------------------------
+---Selectors hiearchy
+id > class > element
+
+--If nested:
+Takes the style of nearest one
+
+
+link css is overwritten  by inline css
+
+3 ways:
+
+	1.inline css
+		<div style="font-size:30px;">
+		it overwrites all other ways provided on the conflicting attributes
+	
+	2.embedded:last linked css file overwrites the previous ones on conflicting ones
+	3.external
+
+----------------------------------------------------
+----------------------------------------------------
+
+JavaScript:
+--by default all variables are global
