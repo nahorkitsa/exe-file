@@ -1,0 +1,11 @@
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\bin\Debug\netcoreapp2.0\PayWellCoreMVCApp.deps.json
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\bin\Debug\netcoreapp2.0\PayWellCoreMVCApp.runtimeconfig.json
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\bin\Debug\netcoreapp2.0\PayWellCoreMVCApp.runtimeconfig.dev.json
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\bin\Debug\netcoreapp2.0\PayWellCoreMVCApp.dll
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\bin\Debug\netcoreapp2.0\PayWellCoreMVCApp.pdb
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.csprojAssemblyReference.cache
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.csproj.CoreCompileInputs.cache
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.AssemblyInfoInputs.cache
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.AssemblyInfo.cs
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.dll
+C:\Users\rohan12.TRN\source\repos\PayWell\PayWellCoreMVCApp\obj\Debug\netcoreapp2.0\PayWellCoreMVCApp.pdb
